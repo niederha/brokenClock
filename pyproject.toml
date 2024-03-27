@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "brokenClock"
+version = "0.0.1"
+authors = [
+  { name="Loïc Niederhauser", email="loic.niederhauser@gmail.com" }
+]
+description = "A package experimenting with ML and crypto. Don't trust it, it's probably pretty bad."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]

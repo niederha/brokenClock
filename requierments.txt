@@ -1,0 +1,6 @@
+wheel
+build
+ipython
+numpy
+pycodestyle
+mypy
