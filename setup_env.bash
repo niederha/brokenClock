@@ -7,7 +7,6 @@ Options:
   -h, --help               Show this help message."
 
 # Parse input flags
-BUILD_FLAGS=()
 rebuild=false
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -26,25 +25,27 @@ while [ "$#" -gt 0 ]; do
   esac
 done
 
-# Check if we need to remove past files and caches
-if [ "$rebuild"=true ] ; then
-    echo "Removing previous venv..."
-    rm -rf .venv
-    echo "Done"
-fi
 
-if [ ! -f .venv ] ; then
-    echo "Creating venv..."
-    python3.9 -m venv .venv          # Create venv (use any python version you like >=3.9)
+
+# Check if we need to (re)install freqtrade
+if [ "$rebuild" = true ] || [ ! -d freqtrade/.venv ]  ; then
+    echo "Installing freqtrade..."
+    rm -rf freqtrade
+    rm -rf .env
+    git clone https://github.com/freqtrade/freqtrade.git 
+    cd freqtrade
+    git checkout stable
+    ./setup.sh -i
+    cd ..
     echo "Done"
 fi
 
 echo "Activating venv..."
-source .venv/bin/activate        # Activate venv
+source freqtrade/.venv/bin/activate        # Activate venv
 echo "Done"
 
 echo "Installing python libraries"
 pip install --upgrade pip            # We need the latest version to have editable mode with a .toml
-pip install -r requirements.txt      # Install package requirements
-python3.9 -m build                   # Build package
-python3.9 -m pip install -e .        # Install package. -e for editable, developer mode.
+pip install -r  requierments.txt      # Install package requirements
+python -m build                   # Build package
+python -m pip install -e .        # Install package. -e for editable, developer mode.
